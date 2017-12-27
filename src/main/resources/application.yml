@@ -1,0 +1,52 @@
+server:
+    #程序启动端口
+    port: 8047
+    
+# Eureka 配置
+eureka:
+    instance:
+        hostname: gimp-discovery
+    client:
+        registerWithEureka: false
+        fetchRegistry: false
+        serviceUrl:
+            defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+#log4j2路径配置        
+logging:
+    config: classpath:log4j2.xml
+    
+    
+spring:
+    application:
+        name: gimp-discovery
+
+###################################################################
+###Eureka服务高可用配置(互相注册为服务)
+### 1.分别启动两个Eureka应用
+###   java -jar gimdiscovery.jar --spring.profiles.active=discovery1
+###   java -jar gimdiscovery.jar --spring.profiles.active=discovery2
+### 2.微服务配置
+###   eureka.client.serviceUrl.defaultZone=http://discovery2:8762/eureka/,http://discovery2:8762/eureka/
+###################################################################
+#server: 
+#    port: 8761
+#spring: 
+#    profiles: discovery1
+#eureka:
+#    instance:
+#        hostname: discovery1
+#    client:
+#        serviceUrl:
+#            defaultZone: http://discovery2:8762/eureka/
+#server: 
+#    port: 8762
+#spring: 
+#    profiles: discovery2
+#eureka:
+#    instance:
+#        hostname: discovery2
+#    client:
+#        serviceUrl:
+#            defaultZone: http://discovery1:8761/eureka/
+    
